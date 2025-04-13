@@ -1,8 +1,5 @@
-.hover-show-delete .delete-btn {
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  
-  .hover-show-delete:hover .delete-btn {
-    opacity: 1;
-  }
+.card {
+  max-width: 600px; /* Ancho máximo opcional */
+  margin: 0 auto; /* Centrar la card */
+}
+

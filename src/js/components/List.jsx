@@ -2,18 +2,7 @@ import React, { useState } from "react";
 
 const List = () => {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState("");
-
-  const handleAddNote = () => {
-    if (newNote.trim()) {
-      setNotes([...notes, { id: Date.now(), text: newNote }]);
-      setNewNote("");
-    }
-  };
-
-  const handleDeleteNote = (id) => {
-    setNotes(notes.filter(note => note.id !== id));
-  };
+  const [inputText, setInputText] = useState("");
 
   return (
     <div className="container mt-4">
@@ -24,9 +13,14 @@ const List = () => {
               type="text"
               className="form-control"
               placeholder="Escribe tu tarea..."
-              value={newNote}
-              onChange={(e) => setNewNote(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleAddNote()}
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && inputText.trim()) {
+                  setNotes([...notes, { id: Date.now(), text: inputText }]);
+                  setInputText("");
+                }
+              }}
             />
           </div>
           
@@ -39,12 +33,14 @@ const List = () => {
               notes.map((note) => (
                 <div 
                   key={note.id} 
-                  className="list-group-item d-flex justify-content-between align-items-center hover-show-delete"
+                  className="list-group-item d-flex justify-content-between align-items-center"
                 >
                   {note.text}
                   <button 
-                    className="btn btn-sm btn-outline-danger delete-btn"
-                    onClick={() => handleDeleteNote(note.id)}
+                    className="btn btn-sm btn-outline-danger"
+                    onMouseOver={(e) => e.target.style.opacity = 1}
+                    onMouseOut={(e) => e.target.style.opacity = 0}
+                    onClick={() => setNotes(notes.filter(n => n.id !== note.id))}
                   >
                     ×
                   </button>
